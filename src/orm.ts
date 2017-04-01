@@ -4,26 +4,26 @@ import Sequelize = require("sequelize");
 import * as errors from "restify-errors";
 import * as inflect from "inflect";
 
-export interface AnyAttributes {}
+export interface AnyAttributes { [key: string]: any }
+export interface ModelInstance extends Sequelize.Instance<AnyAttributes> {}
+export interface ModelObject extends Sequelize.Model<ModelInstance, any> {}
+export interface ModelsObject { [key: string]: ModelObject; }
+export interface WhereOptions extends Sequelize.WhereOptions {}
 
-/**
- * @class ORM
- * @constructor
- */
 export default class ORM {
-  private _models: Map<string, Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>>;
+  private _models: Map<string, ModelObject>
 
-  constructor(_models) {
+  constructor(models: ModelsObject) {
     this._models = new Map();
 
-    Object.keys(_models).forEach(model => {
+    Object.keys(models).forEach(model => {
       const modelName = inflect.singularize(model).toLowerCase();
 
-      this._models.set(modelName, _models[model]);
+      this._models.set(modelName, models[model]);
     });
   }
 
-  async createRecord(modelName: string, payload: Object): Promise<Sequelize.Instance<AnyAttributes>> {
+  async createRecord(modelName: string, payload: AnyAttributes): Promise<ModelInstance> {
     if (!payload) {
       throw new errors.BadRequestError("Missing or invalid body")
     }
@@ -43,7 +43,7 @@ export default class ORM {
     return record.save();
   }
 
-  async destroyRecord(modelName: string, id: number | string): Promise<any> {
+  async destroyRecord(modelName: string, id: number | string): Promise<void> {
     let record;
 
     try {
@@ -53,7 +53,7 @@ export default class ORM {
     return record.destroy();
   }
 
-  findAll(modelName, where, options): Promise<Sequelize.Instance<AnyAttributes>[]> {
+  findAll(modelName: string, where: WhereOptions, options): Promise<ModelInstance[]> {
     const dataQuery = { where };
     const model = this._models.get(modelName);
     const modelQuery = Object.assign(dataQuery, options);
@@ -61,7 +61,7 @@ export default class ORM {
     return model.findAll(modelQuery);
   }
 
-  async findOne(modelName: string, id: number | string, options?: Object): Promise<Sequelize.Instance<AnyAttributes>> {
+  async findOne(modelName: string, id: number | string, options?: Object): Promise<ModelInstance> {
     const dataQuery = { id };
     const model = this._models.get(modelName);
     let record;
@@ -75,7 +75,7 @@ export default class ORM {
     return record;
   }
 
-  async queryRecord(modelName: string, where: Object, options?: Object): Promise<Sequelize.Instance<AnyAttributes>> {
+  async queryRecord(modelName: string, where: WhereOptions, options?: Object): Promise<ModelInstance> {
     const dataQuery = { where };
     const model = this._models.get(modelName);
     const modelQuery = Object.assign(dataQuery, options);
@@ -88,7 +88,7 @@ export default class ORM {
     return record;
   }
 
-  async updateRecord(modelName: string, id: number | string, payload: Object): Promise<Sequelize.Instance<AnyAttributes>> {
+  async updateRecord(modelName: string, id: number | string, payload: AnyAttributes): Promise<ModelInstance> {
     if (!payload) {
       throw new errors.BadRequestError("Missing or invalid body")
     }

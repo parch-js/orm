@@ -47,10 +47,11 @@ UserModel.hasOne(UserModel, { as: "Parent" });
 UserModel.belongsToMany(GroupModel, { through: "UserGroups" });
 UserModel.hasMany(ProjectModel);
 
+export interface AnyAttributes {}
 export const models = {
-  Group: GroupModel,
-  Project: ProjectModel,
-  User: UserModel
+  Group: GroupModel as Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>,
+  Project: ProjectModel as Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>,
+  User: UserModel as Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>
 };
 
 export default {
