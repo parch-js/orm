@@ -6,16 +6,20 @@ import * as inflect from "inflect";
 
 export interface AnyAttributes {}
 
+/**
+ * @class ORM
+ * @constructor
+ */
 export default class ORM {
-  models: Map<string, Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>>;
+  private _models: Map<string, Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>>;
 
-  constructor(models) {
-    this.models = new Map();
+  constructor(_models) {
+    this._models = new Map();
 
-    Object.keys(models).forEach(model => {
+    Object.keys(_models).forEach(model => {
       const modelName = inflect.singularize(model).toLowerCase();
 
-      this.models.set(modelName, models[model]);
+      this._models.set(modelName, _models[model]);
     });
   }
 
@@ -24,7 +28,7 @@ export default class ORM {
       throw new errors.BadRequestError("Missing or invalid body")
     }
 
-    const model = this.models.get(modelName);
+    const model = this._models.get(modelName);
     const record = model.build(payload);
     const validation = await record.validate();
 
@@ -51,7 +55,7 @@ export default class ORM {
 
   findAll(modelName, where, options): Promise<Sequelize.Instance<AnyAttributes>[]> {
     const dataQuery = { where };
-    const model = this.models.get(modelName);
+    const model = this._models.get(modelName);
     const modelQuery = Object.assign(dataQuery, options);
 
     return model.findAll(modelQuery);
@@ -59,7 +63,7 @@ export default class ORM {
 
   async findOne(modelName: string, id: number | string, options?: Object): Promise<Sequelize.Instance<AnyAttributes>> {
     const dataQuery = { id };
-    const model = this.models.get(modelName);
+    const model = this._models.get(modelName);
     let record;
 
     try {
@@ -73,7 +77,7 @@ export default class ORM {
 
   async queryRecord(modelName: string, where: Object, options?: Object): Promise<Sequelize.Instance<AnyAttributes>> {
     const dataQuery = { where };
-    const model = this.models.get(modelName);
+    const model = this._models.get(modelName);
     const modelQuery = Object.assign(dataQuery, options);
     const record = await model.findOne(modelQuery);
 
