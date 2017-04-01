@@ -24,7 +24,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.4.35",
-    "@types/core-js": "^0.9.41",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.12",
     "@types/sequelize": "^3.4.43",
@@ -39,12 +38,12 @@
     "ts-node": "^3.0.2",
     "tslint": "^5.0.0",
     "tslint-config-standard": "^4.0.0",
+    "typedoc": "^0.5.9",
     "typescript": "^2.2.2"
   },
   "dependencies": {
     "inflect": "^0.3.0",
     "restify-errors": "^4.3.0",
-    "sequelize": "^3.30.4",
-    "typedoc": "^0.5.9"
+    "sequelize": "^3.30.4"
   }
 }

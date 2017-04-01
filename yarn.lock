@@ -10,10 +10,6 @@
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-3.4.35.tgz#e8d65f83492d2944f816fc620741821c28a8c900"
 
-"@types/core-js@^0.9.41":
-  version "0.9.41"
-  resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.41.tgz#cfeceb63c2beaa29f882252c7c18e0e9471ff4e2"
-
 "@types/fs-extra@0.0.33":
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-0.0.33.tgz#a8719c417b080c012d3497b28e228ac09745fdf2"
@@ -1019,19 +1015,9 @@ growl@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
 
-handlebars@4.0.5:
+handlebars@4.0.5, handlebars@^4.0.2, handlebars@^4.0.3:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.5.tgz#92c6ed6bb164110c50d4d8d0fbddc70806c6f8e7"
-  dependencies:
-    async "^1.4.0"
-    optimist "^0.6.1"
-    source-map "^0.4.4"
-  optionalDependencies:
-    uglify-js "^2.6"
-
-handlebars@^4.0.2, handlebars@^4.0.3:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.6.tgz#2ce4484850537f9c97a8026d5399b935c4ed4ed7"
   dependencies:
     async "^1.4.0"
     optimist "^0.6.1"
