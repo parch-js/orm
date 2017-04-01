@@ -19,7 +19,7 @@ export default class ORM {
     });
   }
 
-  async createRecord(modelName: string, payload: Object): Promise<any> {
+  async createRecord(modelName: string, payload: Object): Promise<Sequelize.Instance<AnyAttributes>> {
     if (!payload) {
       throw new errors.BadRequestError("Missing or invalid body")
     }
@@ -49,7 +49,7 @@ export default class ORM {
     return record.destroy();
   }
 
-  findAll(modelName, where, options): Promise<any> {
+  findAll(modelName, where, options): Promise<Sequelize.Instance<AnyAttributes>[]> {
     const dataQuery = { where };
     const model = this.models.get(modelName);
     const modelQuery = Object.assign(dataQuery, options);
@@ -57,7 +57,7 @@ export default class ORM {
     return model.findAll(modelQuery);
   }
 
-  async findOne(modelName: string, id: number | string, options?: Object) {
+  async findOne(modelName: string, id: number | string, options?: Object): Promise<Sequelize.Instance<AnyAttributes>> {
     const dataQuery = { id };
     const model = this.models.get(modelName);
     let record;
@@ -71,7 +71,7 @@ export default class ORM {
     return record;
   }
 
-  async queryRecord(modelName: string, where: Object, options?: Object) {
+  async queryRecord(modelName: string, where: Object, options?: Object): Promise<Sequelize.Instance<AnyAttributes>> {
     const dataQuery = { where };
     const model = this.models.get(modelName);
     const modelQuery = Object.assign(dataQuery, options);
@@ -84,7 +84,7 @@ export default class ORM {
     return record;
   }
 
-  async updateRecord(modelName: string, id: number | string, payload: Object) {
+  async updateRecord(modelName: string, id: number | string, payload: Object): Promise<Sequelize.Instance<AnyAttributes>> {
     if (!payload) {
       throw new errors.BadRequestError("Missing or invalid body")
     }
