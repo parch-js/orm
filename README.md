@@ -1,5 +1,7 @@
 # ORM
 
+[![Build Status](https://travis-ci.org/parch-js/orm.svg?branch=master)](https://travis-ci.org/parch-js/orm)
+
 > Simple DSL for accessing data stored in a SQL store.
 
 ## Installation
