@@ -7,7 +7,7 @@
 ## Usage
 
 ```typescript
-import ORM from "@parch/orm";
+import ORM from "@parch-js/orm";
 
 export default class MyORM extends ORM {};
 ```
