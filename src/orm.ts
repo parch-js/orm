@@ -33,7 +33,8 @@ export default class ORM {
     const validation = await record.validate();
 
     if (validation && validation.errors && validation.errors.length) {
-      const { errors: [validationError] } = validation;
+      const validationErrors = validation.errors;
+      const validationError = validationErrors[0];
 
       throw new errors.UnprocessableEntityError(validationError.message);
     } else if (validation) {
@@ -105,7 +106,8 @@ export default class ORM {
       return updatedRecord;
     } catch (err) {
       if (err && err.errors && err.errors.length) {
-        const { errors: [validationError] } = err;
+        const validationErrors = err.errors;
+        const validationError = validationErrors[0];
 
         throw new errors.UnprocessableEntityError(validationError.message);
       } else if (err) {
