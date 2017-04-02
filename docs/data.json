@@ -35,12 +35,12 @@
             "extension_for": [],
             "file": "src/orm.js",
             "line": 6,
-            "description": "SQL Database dsl wrapping Sequelize",
+            "description": "SQL Database dsl",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "models",
-                    "description": "hash of sequelize defined models",
+                    "description": "hash of <a href=\"http://docs.sequelizejs.com/en/v3/docs/models-definition/#definition\" target=\"_blank\">sequelize defined</a> models",
                     "type": "Object"
                 }
             ]

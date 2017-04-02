@@ -4,11 +4,11 @@ import errors from "restify-errors";
 import inflect from "inflect";
 
 /**
- * SQL Database dsl wrapping Sequelize
+ * SQL Database dsl
  *
  * @class ORM
  * @constructor
- * @param {Object} models hash of sequelize defined models
+ * @param {Object} models hash of <a href="http://docs.sequelizejs.com/en/v3/docs/models-definition/#definition" target="_blank">sequelize defined</a> models
  */
 export default class ORM {
   constructor(models) {
