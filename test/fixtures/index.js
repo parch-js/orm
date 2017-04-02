@@ -1,6 +1,6 @@
 "use strict";
 
-import * as Sequelize from "sequelize";
+import Sequelize from "sequelize";
 
 const connection = {
   dialect: "sqlite",
@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
   connection
 );
 
-const UserModel = sequelize.define('user', {
+const UserModel = sequelize.define("user", {
   firstName: {
     type: Sequelize.STRING,
     validate: {
@@ -31,13 +31,13 @@ const UserModel = sequelize.define('user', {
   }
 });
 
-const ProjectModel = sequelize.define('project', {
+const ProjectModel = sequelize.define("project", {
   name: {
     type: Sequelize.STRING
   }
 });
 
-const GroupModel = sequelize.define('group', {
+const GroupModel = sequelize.define("group", {
   name: {
     type: Sequelize.STRING
   }
@@ -47,11 +47,10 @@ UserModel.hasOne(UserModel, { as: "Parent" });
 UserModel.belongsToMany(GroupModel, { through: "UserGroups" });
 UserModel.hasMany(ProjectModel);
 
-export interface AnyAttributes {}
 export const models = {
-  Group: GroupModel as Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>,
-  Project: ProjectModel as Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>,
-  User: UserModel as Sequelize.Model<Sequelize.Instance<AnyAttributes>, any>
+  Group: GroupModel,
+  Project: ProjectModel,
+  User: UserModel
 };
 
 export default {
@@ -61,4 +60,4 @@ export default {
   UserModel,
   models,
   sequelize
-}
+};
