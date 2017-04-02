@@ -1,6 +1,7 @@
 # ORM
 
 [![Build Status](https://travis-ci.org/parch-js/orm.svg?branch=develop)](https://travis-ci.org/parch-js/orm)
+[![Coverage Status](https://coveralls.io/repos/github/parch-js/orm/badge.svg?branch=develop)](https://coveralls.io/github/parch-js/orm?branch=develop)
 
 > Simple DSL for accessing data stored in a SQL store.
 
