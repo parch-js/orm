@@ -38,4 +38,4 @@ return orm.updateRecord("user", 1, { firstName: "baz" }).then(user => {});
 return orm.destroyRecord("user", 1).then(() => {});
 ```
 
-[Read the docs]() for more in depth usage.
+[Read the docs](https://parch-js.github.io/orm/docs) for more in depth usage.
