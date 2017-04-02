@@ -22,7 +22,7 @@ export default class ORM {
   }
 
   /**
-   * create a new model instance
+   * Create a new model instance
    *
    * @method createRecord
    * @param {String} modelName lowercase singular model name
@@ -77,7 +77,7 @@ export default class ORM {
   }
 
   /**
-   * findAll
+   * Return all instances of a model and optionally pass a query object
    *
    * @method findAll
    * @param {String} modelName lowercase singular model name
@@ -105,7 +105,7 @@ export default class ORM {
   }
 
   /**
-   * findOne
+   * Return a single instance by id
    *
    * @method findOne
    * @param {String} modelName lowercase singular model name
@@ -127,7 +127,7 @@ export default class ORM {
   }
 
   /**
-   * queryRecord
+   * Like findOne but takes a query instead of an id
    *
    * @method queryRecord
    * @param {String} modelName lowercase singular model name
@@ -160,7 +160,7 @@ export default class ORM {
   }
 
   /**
-   * updateRecord
+   * Update a record
    *
    * @method updateRecord
    * @param {String} modelName lowercase singular model name
