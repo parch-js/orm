@@ -3,6 +3,13 @@
 import errors from "restify-errors";
 import inflect from "inflect";
 
+/**
+ * SQL Database dsl wrapping Sequelize
+ *
+ * @class ORM
+ * @constructor
+ * @param {Object} models hash of sequelize defined models
+ */
 export default class ORM {
   constructor(models) {
     this._models = new Map();
@@ -14,6 +21,19 @@ export default class ORM {
     });
   }
 
+  /**
+   * create a new model instance
+   *
+   * @method createRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} payload new instance data
+   * @return {Promise<ModelInstance, Error>}
+   * @example
+   *
+   * ```javascript
+   * return orm.createRecord("user", { firstName: "John" });
+   * ```
+   */
   createRecord(modelName, payload) {
     if (!payload) {
       return Promise.reject(
@@ -38,11 +58,44 @@ export default class ORM {
     });
   }
 
+  /**
+   * Destroy a record instance
+   *
+   * @method destroyRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Number|String} id id of the record to destroy
+   * @return {Promise<void>}
+   * @example
+   *
+   * ```javascript
+   * return orm.destroyRecord("user", 1);
+   * ```
+   */
   destroyRecord(modelName, id) {
     return this.findOne(modelName, id)
       .then(record => record.destroy());
   }
 
+  /**
+   * findAll
+   *
+   * @method findAll
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} where <a href="http://docs.sequelizejs.com/en/v3/docs/querying/#where" target="_blank">Sequelize Where clause</a>
+   * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
+   *   sequelize finder options
+   * </a>
+   * @return {Promise<ModelInstance, Error>}
+   * @example
+   *
+   * ```javascript
+   * return orm.findAll("user");
+   *
+   * // you can also query
+   *
+   * return orm.findAll("user", { firstName: { $like: "john" }});
+   * ```
+   */
   findAll(modelName, where, options) {
     const dataQuery = { where };
     const model = this._models.get(modelName);
@@ -51,12 +104,44 @@ export default class ORM {
     return model.findAll(modelQuery);
   }
 
+  /**
+   * findOne
+   *
+   * @method findOne
+   * @param {String} modelName lowercase singular model name
+   * @param {Number|String} id id of the record to destroy
+   * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
+   *   sequelize finder options
+   * </a>
+   * @return {Promise<ModelInstance, Error>}
+   * @example
+   *
+   * ```javascript
+   * return orm.findOne("user", 1);
+   * ```
+   */
   findOne(modelName, id, options) {
     const dataQuery = { id };
 
     return this.queryRecord(modelName, dataQuery, options);
   }
 
+  /**
+   * queryRecord
+   *
+   * @method queryRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} where <a href="http://docs.sequelizejs.com/en/v3/docs/querying/#where" target="_blank">Sequelize Where clause</a>
+   * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
+   *   sequelize finder options
+   * </a>
+   * @return {Promise<ModelInstance, Error>}
+   * @example
+   *
+   * ```javascript
+   * return orm.queryRecord("user", { firstName: "John" });
+   * ```
+   */
   queryRecord(modelName, where, options) {
     const dataQuery = { where };
     const model = this._models.get(modelName);
@@ -74,6 +159,20 @@ export default class ORM {
     });
   }
 
+  /**
+   * updateRecord
+   *
+   * @method updateRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Number|String} id id of the record to destroy
+   * @param {Object} payload new instance data
+   * @return {Promise<ModelInstance, Error>}
+   * @example
+   *
+   * ```javascript
+   * return orm.updateRecord("user", 1, { firsName: "Joe" });
+   * ```
+   */
   updateRecord(modelName, id, payload) {
     if (!payload) {
       return Promise.reject(
