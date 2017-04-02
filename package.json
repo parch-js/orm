@@ -1,6 +1,6 @@
 {
   "name": "@parch-js/orm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ORM for parch providing record DSL",
   "main": "index.js",
   "scripts": {
