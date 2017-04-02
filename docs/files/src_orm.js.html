@@ -83,9 +83,10 @@ import inflect from &quot;inflect&quot;;
 
 /**
  * SQL Database dsl wrapping Sequelize
+ *
  * @class ORM
  * @constructor
- * @param {Object} models
+ * @param {Object} models hash of sequelize defined models
  */
 export default class ORM {
   constructor(models) {
@@ -104,7 +105,7 @@ export default class ORM {
    * @method createRecord
    * @param {String} modelName lowercase singular model name
    * @param {Object} payload new instance data
-   * @return {Promise&lt;ModelInstance, Error&gt;}
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
    * @example
    *
    * &#x60;&#x60;&#x60;javascript
@@ -162,7 +163,7 @@ export default class ORM {
    * @param {Object} options &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance&quot; target=&quot;_blank&quot;&gt;
    *   sequelize finder options
    * &lt;/a&gt;
-   * @return {Promise&lt;ModelInstance, Error&gt;}
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
    * @example
    *
    * &#x60;&#x60;&#x60;javascript
@@ -190,7 +191,7 @@ export default class ORM {
    * @param {Object} options &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance&quot; target=&quot;_blank&quot;&gt;
    *   sequelize finder options
    * &lt;/a&gt;
-   * @return {Promise&lt;ModelInstance, Error&gt;}
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
    * @example
    *
    * &#x60;&#x60;&#x60;javascript
@@ -212,7 +213,7 @@ export default class ORM {
    * @param {Object} options &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance&quot; target=&quot;_blank&quot;&gt;
    *   sequelize finder options
    * &lt;/a&gt;
-   * @return {Promise&lt;ModelInstance, Error&gt;}
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
    * @example
    *
    * &#x60;&#x60;&#x60;javascript
@@ -243,7 +244,7 @@ export default class ORM {
    * @param {String} modelName lowercase singular model name
    * @param {Number|String} id id of the record to destroy
    * @param {Object} payload new instance data
-   * @return {Promise&lt;ModelInstance, Error&gt;}
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
    * @example
    *
    * &#x60;&#x60;&#x60;javascript

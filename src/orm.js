@@ -27,7 +27,7 @@ export default class ORM {
    * @method createRecord
    * @param {String} modelName lowercase singular model name
    * @param {Object} payload new instance data
-   * @return {Promise<ModelInstance, Error>}
+   * @return {Promise}<ModelInstance, RestError>
    * @example
    *
    * ```javascript
@@ -85,7 +85,7 @@ export default class ORM {
    * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
    *   sequelize finder options
    * </a>
-   * @return {Promise<ModelInstance, Error>}
+   * @return {Promise}<ModelInstance, RestError>
    * @example
    *
    * ```javascript
@@ -113,7 +113,7 @@ export default class ORM {
    * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
    *   sequelize finder options
    * </a>
-   * @return {Promise<ModelInstance, Error>}
+   * @return {Promise}<ModelInstance, RestError>
    * @example
    *
    * ```javascript
@@ -135,7 +135,7 @@ export default class ORM {
    * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
    *   sequelize finder options
    * </a>
-   * @return {Promise<ModelInstance, Error>}
+   * @return {Promise}<ModelInstance, RestError>
    * @example
    *
    * ```javascript
@@ -166,7 +166,7 @@ export default class ORM {
    * @param {String} modelName lowercase singular model name
    * @param {Number|String} id id of the record to destroy
    * @param {Object} payload new instance data
-   * @return {Promise<ModelInstance, Error>}
+   * @return {Promise}<ModelInstance, RestError>
    * @example
    *
    * ```javascript

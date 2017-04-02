@@ -40,7 +40,7 @@
             "params": [
                 {
                     "name": "models",
-                    "description": "",
+                    "description": "hash of sequelize defined models",
                     "type": "Object"
                 }
             ]
@@ -56,7 +56,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 23,
+            "line": 24,
             "description": "create a new model instance",
             "itemtype": "method",
             "name": "createRecord",
@@ -73,8 +73,8 @@
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Promise<ModelInstance, Error>"
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
             },
             "example": [
                 "\n\n```javascript\nreturn orm.createRecord(\"user\", { firstName: \"John\" });\n```"
@@ -83,7 +83,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 60,
+            "line": 61,
             "description": "Destroy a record instance",
             "itemtype": "method",
             "name": "destroyRecord",
@@ -110,7 +110,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 78,
+            "line": 79,
             "description": "findAll",
             "itemtype": "method",
             "name": "findAll",
@@ -132,8 +132,8 @@
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Promise<ModelInstance, Error>"
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
             },
             "example": [
                 "\n\n```javascript\nreturn orm.findAll(\"user\");\n\n// you can also query\n\nreturn orm.findAll(\"user\", { firstName: { $like: \"john\" }});\n```"
@@ -142,7 +142,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 106,
+            "line": 107,
             "description": "findOne",
             "itemtype": "method",
             "name": "findOne",
@@ -164,8 +164,8 @@
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Promise<ModelInstance, Error>"
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
             },
             "example": [
                 "\n\n```javascript\nreturn orm.findOne(\"user\", 1);\n```"
@@ -174,7 +174,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 128,
+            "line": 129,
             "description": "queryRecord",
             "itemtype": "method",
             "name": "queryRecord",
@@ -196,8 +196,8 @@
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Promise<ModelInstance, Error>"
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
             },
             "example": [
                 "\n\n```javascript\nreturn orm.queryRecord(\"user\", { firstName: \"John\" });\n```"
@@ -206,7 +206,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 161,
+            "line": 162,
             "description": "updateRecord",
             "itemtype": "method",
             "name": "updateRecord",
@@ -228,8 +228,8 @@
                 }
             ],
             "return": {
-                "description": "",
-                "type": "Promise<ModelInstance, Error>"
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
             },
             "example": [
                 "\n\n```javascript\nreturn orm.updateRecord(\"user\", 1, { firsName: \"Joe\" });\n```"
@@ -238,7 +238,7 @@
         },
         {
             "file": "src/orm.js",
-            "line": 185,
+            "line": 186,
             "description": "HACK: if this is a sequelize validation error, we transform it, otherwise\nwe can't be totally sure so just throw it up the stack",
             "class": "ORM"
         }
@@ -250,7 +250,7 @@
         },
         {
             "message": "Missing item type\nHACK: if this is a sequelize validation error, we transform it, otherwise\nwe can't be totally sure so just throw it up the stack",
-            "line": " src/orm.js:185"
+            "line": " src/orm.js:186"
         }
     ]
 }
