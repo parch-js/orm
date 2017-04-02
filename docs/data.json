@@ -1,0 +1,256 @@
+{
+    "project": {
+        "name": "@parch-js/orm",
+        "url": "https://github.com/parch-js/orm",
+        "version": "0.0.1",
+        "description": "ORM for parch providing record DSL"
+    },
+    "files": {
+        "docs/assets/vendor/bootstrap/js/bootstrap.min.js": {
+            "name": "docs/assets/vendor/bootstrap/js/bootstrap.min.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/orm.js": {
+            "name": "src/orm.js",
+            "modules": {},
+            "classes": {
+                "ORM": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "ORM": {
+            "name": "ORM",
+            "shortname": "ORM",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/orm.js",
+            "line": 6,
+            "description": "SQL Database dsl wrapping Sequelize",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "models",
+                    "description": "hash of sequelize defined models",
+                    "type": "Object"
+                }
+            ]
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "docs/assets/vendor/bootstrap/js/bootstrap.min.js",
+            "line": 1,
+            "description": "Bootstrap.js by @fat & @mdo\nplugins: bootstrap-transition.js, bootstrap-modal.js, bootstrap-dropdown.js, bootstrap-scrollspy.js, bootstrap-tab.js, bootstrap-tooltip.js, bootstrap-popover.js, bootstrap-affix.js, bootstrap-alert.js, bootstrap-button.js, bootstrap-collapse.js, bootstrap-carousel.js, bootstrap-typeahead.js\nCopyright 2012 Twitter, Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0.txt",
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 24,
+            "description": "create a new model instance",
+            "itemtype": "method",
+            "name": "createRecord",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "lowercase singular model name",
+                    "type": "String"
+                },
+                {
+                    "name": "payload",
+                    "description": "new instance data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
+            },
+            "example": [
+                "\n\n```javascript\nreturn orm.createRecord(\"user\", { firstName: \"John\" });\n```"
+            ],
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 61,
+            "description": "Destroy a record instance",
+            "itemtype": "method",
+            "name": "destroyRecord",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "lowercase singular model name",
+                    "type": "String"
+                },
+                {
+                    "name": "id",
+                    "description": "id of the record to destroy",
+                    "type": "Number|String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise<void>"
+            },
+            "example": [
+                "\n\n```javascript\nreturn orm.destroyRecord(\"user\", 1);\n```"
+            ],
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 79,
+            "description": "findAll",
+            "itemtype": "method",
+            "name": "findAll",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "lowercase singular model name",
+                    "type": "String"
+                },
+                {
+                    "name": "where",
+                    "description": "<a href=\"http://docs.sequelizejs.com/en/v3/docs/querying/#where\" target=\"_blank\">Sequelize Where clause</a>",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "<a href=\"http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance\" target=\"_blank\">\n  sequelize finder options\n</a>",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
+            },
+            "example": [
+                "\n\n```javascript\nreturn orm.findAll(\"user\");\n\n// you can also query\n\nreturn orm.findAll(\"user\", { firstName: { $like: \"john\" }});\n```"
+            ],
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 107,
+            "description": "findOne",
+            "itemtype": "method",
+            "name": "findOne",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "lowercase singular model name",
+                    "type": "String"
+                },
+                {
+                    "name": "id",
+                    "description": "id of the record to destroy",
+                    "type": "Number|String"
+                },
+                {
+                    "name": "options",
+                    "description": "<a href=\"http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance\" target=\"_blank\">\n  sequelize finder options\n</a>",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
+            },
+            "example": [
+                "\n\n```javascript\nreturn orm.findOne(\"user\", 1);\n```"
+            ],
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 129,
+            "description": "queryRecord",
+            "itemtype": "method",
+            "name": "queryRecord",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "lowercase singular model name",
+                    "type": "String"
+                },
+                {
+                    "name": "where",
+                    "description": "<a href=\"http://docs.sequelizejs.com/en/v3/docs/querying/#where\" target=\"_blank\">Sequelize Where clause</a>",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "<a href=\"http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance\" target=\"_blank\">\n  sequelize finder options\n</a>",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
+            },
+            "example": [
+                "\n\n```javascript\nreturn orm.queryRecord(\"user\", { firstName: \"John\" });\n```"
+            ],
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 162,
+            "description": "updateRecord",
+            "itemtype": "method",
+            "name": "updateRecord",
+            "params": [
+                {
+                    "name": "modelName",
+                    "description": "lowercase singular model name",
+                    "type": "String"
+                },
+                {
+                    "name": "id",
+                    "description": "id of the record to destroy",
+                    "type": "Number|String"
+                },
+                {
+                    "name": "payload",
+                    "description": "new instance data",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "<ModelInstance, RestError>",
+                "type": "Promise"
+            },
+            "example": [
+                "\n\n```javascript\nreturn orm.updateRecord(\"user\", 1, { firsName: \"Joe\" });\n```"
+            ],
+            "class": "ORM"
+        },
+        {
+            "file": "src/orm.js",
+            "line": 186,
+            "description": "HACK: if this is a sequelize validation error, we transform it, otherwise\nwe can't be totally sure so just throw it up the stack",
+            "class": "ORM"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nBootstrap.js by @fat & @mdo\nplugins: bootstrap-transition.js, bootstrap-modal.js, bootstrap-dropdown.js, bootstrap-scrollspy.js, bootstrap-tab.js, bootstrap-tooltip.js, bootstrap-popover.js, bootstrap-affix.js, bootstrap-alert.js, bootstrap-button.js, bootstrap-collapse.js, bootstrap-carousel.js, bootstrap-typeahead.js\nCopyright 2012 Twitter, Inc.\nhttp://www.apache.org/licenses/LICENSE-2.0.txt",
+            "line": " docs/assets/vendor/bootstrap/js/bootstrap.min.js:1"
+        },
+        {
+            "message": "Missing item type\nHACK: if this is a sequelize validation error, we transform it, otherwise\nwe can't be totally sure so just throw it up the stack",
+            "line": " src/orm.js:186"
+        }
+    ]
+}

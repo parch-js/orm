@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/orm.js - @parch-js/orm</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/css/lucid.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+            @parch-js/orm
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b>0.0.1</b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/ORM"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+<div>
+    <div id="sidebar">
+    <div id="classes">
+        <ul id="api-classes" class="nav nav-list">
+                <li><a href="../classes/ORM.html">ORM</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+        </div>
+        <div class="span9">
+    <form id="options-form" class="form-inline pull-right">
+        Show:
+        <label for="api-show-inherited" class="checkbox">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected" class="checkbox">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private" class="checkbox">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated" class="checkbox">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </form>
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>src/orm.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+&quot;use strict&quot;;
+
+import errors from &quot;restify-errors&quot;;
+import inflect from &quot;inflect&quot;;
+
+/**
+ * SQL Database dsl wrapping Sequelize
+ *
+ * @class ORM
+ * @constructor
+ * @param {Object} models hash of sequelize defined models
+ */
+export default class ORM {
+  constructor(models) {
+    this._models = new Map();
+
+    Object.keys(models).forEach(model =&gt; {
+      const modelName = inflect.singularize(model).toLowerCase();
+
+      this._models.set(modelName, models[model]);
+    });
+  }
+
+  /**
+   * create a new model instance
+   *
+   * @method createRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} payload new instance data
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
+   * @example
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * return orm.createRecord(&quot;user&quot;, { firstName: &quot;John&quot; });
+   * &#x60;&#x60;&#x60;
+   */
+  createRecord(modelName, payload) {
+    if (!payload) {
+      return Promise.reject(
+        new errors.BadRequestError(&quot;Missing or invalid body&quot;)
+      );
+    }
+
+    const model = this._models.get(modelName);
+    const record = model.build(payload);
+
+    return record.validate().then(validation =&gt; {
+      if (validation &amp;&amp; validation.errors &amp;&amp; validation.errors.length) {
+        const validationErrors = validation.errors;
+        const validationError = validationErrors[0];
+
+        throw new errors.UnprocessableEntityError(validationError.message);
+      } else if (validation) {
+        throw new errors.UnprocessableEntityError(validation.message);
+      }
+
+      return record.save();
+    });
+  }
+
+  /**
+   * Destroy a record instance
+   *
+   * @method destroyRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Number|String} id id of the record to destroy
+   * @return {Promise&lt;void&gt;}
+   * @example
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * return orm.destroyRecord(&quot;user&quot;, 1);
+   * &#x60;&#x60;&#x60;
+   */
+  destroyRecord(modelName, id) {
+    return this.findOne(modelName, id)
+      .then(record =&gt; record.destroy());
+  }
+
+  /**
+   * findAll
+   *
+   * @method findAll
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} where &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/docs/querying/#where&quot; target=&quot;_blank&quot;&gt;Sequelize Where clause&lt;/a&gt;
+   * @param {Object} options &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance&quot; target=&quot;_blank&quot;&gt;
+   *   sequelize finder options
+   * &lt;/a&gt;
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
+   * @example
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * return orm.findAll(&quot;user&quot;);
+   *
+   * // you can also query
+   *
+   * return orm.findAll(&quot;user&quot;, { firstName: { $like: &quot;john&quot; }});
+   * &#x60;&#x60;&#x60;
+   */
+  findAll(modelName, where, options) {
+    const dataQuery = { where };
+    const model = this._models.get(modelName);
+    const modelQuery = Object.assign(dataQuery, options);
+
+    return model.findAll(modelQuery);
+  }
+
+  /**
+   * findOne
+   *
+   * @method findOne
+   * @param {String} modelName lowercase singular model name
+   * @param {Number|String} id id of the record to destroy
+   * @param {Object} options &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance&quot; target=&quot;_blank&quot;&gt;
+   *   sequelize finder options
+   * &lt;/a&gt;
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
+   * @example
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * return orm.findOne(&quot;user&quot;, 1);
+   * &#x60;&#x60;&#x60;
+   */
+  findOne(modelName, id, options) {
+    const dataQuery = { id };
+
+    return this.queryRecord(modelName, dataQuery, options);
+  }
+
+  /**
+   * queryRecord
+   *
+   * @method queryRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} where &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/docs/querying/#where&quot; target=&quot;_blank&quot;&gt;Sequelize Where clause&lt;/a&gt;
+   * @param {Object} options &lt;a href=&quot;http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance&quot; target=&quot;_blank&quot;&gt;
+   *   sequelize finder options
+   * &lt;/a&gt;
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
+   * @example
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * return orm.queryRecord(&quot;user&quot;, { firstName: &quot;John&quot; });
+   * &#x60;&#x60;&#x60;
+   */
+  queryRecord(modelName, where, options) {
+    const dataQuery = { where };
+    const model = this._models.get(modelName);
+    const modelQuery = Object.assign(dataQuery, options);
+
+    return model.findOne(modelQuery).then(record =&gt; {
+      if (!record) {
+        const NotFound = errors.NotFoundError;
+        const message = &quot;user does not exist&quot;;
+
+        throw new NotFound(message);
+      }
+
+      return record;
+    });
+  }
+
+  /**
+   * updateRecord
+   *
+   * @method updateRecord
+   * @param {String} modelName lowercase singular model name
+   * @param {Number|String} id id of the record to destroy
+   * @param {Object} payload new instance data
+   * @return {Promise}&lt;ModelInstance, RestError&gt;
+   * @example
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * return orm.updateRecord(&quot;user&quot;, 1, { firsName: &quot;Joe&quot; });
+   * &#x60;&#x60;&#x60;
+   */
+  updateRecord(modelName, id, payload) {
+    if (!payload) {
+      return Promise.reject(
+        new errors.BadRequestError(&quot;Missing or invalid body&quot;)
+      );
+    }
+
+    return this.findOne(modelName, id)
+      .then(record =&gt; record.update(payload))
+      .catch(err =&gt; {
+        /**
+         * HACK: if this is a sequelize validation error, we transform it, otherwise
+         * we can&#x27;t be totally sure so just throw it up the stack
+         */
+        if (err.name === &quot;SequelizeValidationError&quot;) {
+          const { errors: [validationError] } = err;
+          const error = errors.UnprocessableEntityError;
+          const message = validationError.message;
+
+          throw new error(message);
+        } else {
+          throw err;
+        }
+      });
+  }
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>
