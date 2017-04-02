@@ -11,12 +11,11 @@ describe("ORM", function () {
   beforeEach(function () {
     orm = new ORM(fixtures.models);
 
-    return fixtures.sequelize.sync({ force: true }).then(() => {
-      return fixtures.UserModel.create({
-        firstName: "John",
-        lastName: "Smith"
-      }).then(john => user = john);
-    });
+    return fixtures.sequelize.sync({ force: true }).then(() =>
+        fixtures.UserModel.create({
+          firstName: "John",
+          lastName: "Smith"
+        }).then(john => { user = john; }));
   });
 
   describe("#findAll", function () {
@@ -27,14 +26,12 @@ describe("ORM", function () {
     });
 
     it("allows for querying", function () {
-      return fixtures.UserModel.create({
-        firstName: "Jane"
-      }).then(jane => {
-        return orm.findAll("user", { firstName: { $like: "jane" }}).then(users => {
+      return fixtures.UserModel.create({ firstName: "Jane" }).then(jane =>
+        orm.findAll("user", { firstName: { $like: "jane" }}).then(users => {
           expect(users).to.have.length(1);
           expect(users[0].firstName).to.eql("Jane");
         })
-      });
+      );
     });
 
     it("allows for query options", function () {
@@ -146,12 +143,11 @@ describe("ORM", function () {
 
   describe("#destroyRecord", function () {
     it("destroys a record", function (done) {
-      orm.destroyRecord("user", user.id).then(() => {
-        return orm.findOne("user", user.id);
-      }).catch(err => {
-        expect(err.body.message).to.eql("user does not exist");
-        done();
-      });
+      orm.destroyRecord("user", user.id).then(() => orm.findOne("user", user.id))
+        .catch(err => {
+          expect(err.body.message).to.eql("user does not exist");
+          done();
+        });
     });
 
     it("throws a NotFound error if the record doesn't exist", function (done) {
@@ -161,4 +157,4 @@ describe("ORM", function () {
       });
     });
   });
-})
+});
