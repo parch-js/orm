@@ -21,7 +21,7 @@
             <li class="divider-vertical"></li>
             <li>
                 <p class="navbar-text">
-                    API Docs for Version: <b>0.0.1</b>
+                    API Docs for Version: <b>0.0.2</b>
                 </p>
             </li>
         </div>
@@ -228,7 +228,7 @@ export default class ORM {
     return model.findOne(modelQuery).then(record =&gt; {
       if (!record) {
         const NotFound = errors.NotFoundError;
-        const message = &quot;user does not exist&quot;;
+        const message = &#x60;${modelName} does not exist&#x60;;
 
         throw new NotFound(message);
       }
