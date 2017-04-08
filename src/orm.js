@@ -150,7 +150,7 @@ export default class ORM {
     return model.findOne(modelQuery).then(record => {
       if (!record) {
         const NotFound = errors.NotFoundError;
-        const message = "user does not exist";
+        const message = `${modelName} does not exist`;
 
         throw new NotFound(message);
       }
