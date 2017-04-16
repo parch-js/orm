@@ -72,7 +72,7 @@ export default class ORM {
    * ```
    */
   destroyRecord(modelName, id) {
-    return this.findOne(modelName, id)
+    return this._queryRecord(modelName, { id })
       .then(record => record.destroy());
   }
 
@@ -123,7 +123,7 @@ export default class ORM {
   findOne(modelName, id, options) {
     const dataQuery = { id };
 
-    return this.queryRecord(modelName, dataQuery, options);
+    return this._queryRecord(modelName, dataQuery, options);
   }
 
   /**
@@ -142,21 +142,8 @@ export default class ORM {
    * return orm.queryRecord("user", { firstName: "John" });
    * ```
    */
-  queryRecord(modelName, where, options) {
-    const dataQuery = { where };
-    const model = this._models.get(modelName);
-    const modelQuery = Object.assign(dataQuery, options);
-
-    return model.findOne(modelQuery).then(record => {
-      if (!record) {
-        const NotFound = errors.NotFoundError;
-        const message = `${modelName} does not exist`;
-
-        throw new NotFound(message);
-      }
-
-      return record;
-    });
+  queryRecord() {
+    return this._queryRecord(...arguments);
   }
 
   /**
@@ -180,7 +167,7 @@ export default class ORM {
       );
     }
 
-    return this.findOne(modelName, id)
+    return this._queryRecord(modelName, { id })
       .then(record => record.update(payload))
       .catch(err => {
         /**
@@ -197,5 +184,41 @@ export default class ORM {
           throw err;
         }
       });
+  }
+
+  /**
+   * Handles querying single records with either an id or other attribute query
+   * This is handled in this separate private method to allow for further
+   * extension of the highlevel api (findOne, queryRecord, etc) further upstream
+   *
+   * @method _queryRecord
+   * @private
+   * @param {String} modelName lowercase singular model name
+   * @param {Object} where <a href="http://docs.sequelizejs.com/en/v3/docs/querying/#where" target="_blank">Sequelize Where clause</a>
+   * @param {Object} options <a href="http://docs.sequelizejs.com/en/v3/api/model/#findoneoptions-promiseinstance" target="_blank">
+   *   sequelize finder options
+   * </a>
+   * @return {Promise}<ModelInstance, RestError>
+   * @example
+   *
+   * ```javascript
+   * return orm.queryRecord("user", { firstName: "John" });
+   * ```
+   */
+  _queryRecord(modelName, where, options) {
+    const dataQuery = { where };
+    const model = this._models.get(modelName);
+    const modelQuery = Object.assign(dataQuery, options);
+
+    return model.findOne(modelQuery).then(record => {
+      if (!record) {
+        const NotFound = errors.NotFoundError;
+        const message = `${modelName} does not exist`;
+
+        throw new NotFound(message);
+      }
+
+      return record;
+    });
   }
 }
