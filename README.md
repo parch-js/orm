@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/parch-js/orm.svg?branch=develop)](https://travis-ci.org/parch-js/orm)
 [![Coverage Status](https://coveralls.io/repos/github/parch-js/orm/badge.svg?branch=develop)](https://coveralls.io/github/parch-js/orm?branch=develop)
+[![bitHound Overall Score](https://www.bithound.io/github/parch-js/orm/badges/score.svg)](https://www.bithound.io/github/parch-js/orm)
 
 > Simple DSL for accessing data stored in a SQL store.
 
