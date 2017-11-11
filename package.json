@@ -49,6 +49,14 @@
     "restify-errors": "^5.0.0",
     "sequelize": "^4.22.6"
   },
+  "babel": {
+    "presets": [
+      "es2015"
+    ],
+    "plugins": [
+      "babel-plugin-add-module-exports"
+    ]
+  },
   "eslintConfig": {
     "extends": "unstandard",
     "parserOptions": {
