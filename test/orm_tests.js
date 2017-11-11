@@ -12,11 +12,12 @@ describe("ORM", function () {
   beforeEach(function () {
     orm = new ORM(fixtures.models);
 
-    return fixtures.sequelize.sync({ force: true }).then(() =>
-        fixtures.UserModel.create({
-          firstName: "John",
-          lastName: "Smith"
-        }).then(john => { user = john; }));
+    return fixtures.sequelize
+      .sync({ force: true })
+      .then(() => fixtures.UserModel.create({
+        firstName: "John",
+        lastName: "Smith"
+      }).then(john => { user = john; }));
   });
 
   describe("#findAll", function () {
