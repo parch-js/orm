@@ -5,16 +5,17 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src -d lib",
-    "build:watch": "chokidar 'src/**' 'test/**/*.js' -c 'npm run build' --initial",
-    "coverage": "NODE_ENV=test istanbul cover ./node_modules/mocha/bin/_mocha -- --compilers js:babel-register --recursive",
+    "cover": "nyc yarn test",
     "changelog": "conventional-changelog -s -p angular -i CHANGELOG.md",
     "docs": "yuidoc . -o docs",
     "lint": "eslint ./src ./test",
     "prepare-release": "curl -sL https://gist.githubusercontent.com/dylanfoster/35b06db9aaa9237da77eff4a8eec0a22/raw/83ec714ec64f7ec36c5004588aa259354fc87b51/prepare-release.sh | bash -s",
-    "prepublish": "npm run build",
-    "test": "NODE_ENV=test mocha --recursive --compilers js:babel-register",
-    "test:cover": "npm run coverage",
-    "watch": "chokidar 'src/**' 'test/**/*.js' -c 'npm test' --initial"
+    "prepublish": "yarn build",
+    "pretest": "yarn build",
+    "test": "NO_DEPRECATION=parch NODE_ENV=test mocha --recursive --compilers js:babel-register --timeout 5000",
+    "watch:build": "chokidar 'src/**' 'test/**/*.js' -c 'yarn build' --initial",
+    "watch:cover": "chokidar 'src/**' 'test/**/*.js' -c 'yarn cover' --initial",
+    "watch:test": "chokidar 'src/**' 'test/**/*.js' -c 'yarn test' --initial"
   },
   "keywords": [
     "parch",
@@ -44,9 +45,9 @@
     "yuidocjs": "^0.10.2"
   },
   "dependencies": {
-    "inflect": "^0.3.0",
-    "restify-errors": "^4.3.0",
-    "sequelize": "^3.30.4"
+    "inflect": "^0.4.0",
+    "restify-errors": "^5.0.0",
+    "sequelize": "^4.22.6"
   },
   "eslintConfig": {
     "extends": "unstandard",
