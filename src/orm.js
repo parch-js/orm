@@ -52,7 +52,7 @@ export default class ORM {
           const validationError = validationErrors[0];
 
           throw new errors.UnprocessableEntityError(validationError.message);
-        } else if (validation) {
+        } else {
           throw new errors.UnprocessableEntityError(validation.message);
         }
       });

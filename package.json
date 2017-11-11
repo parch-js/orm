@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "inflect": "^0.4.0",
+    "nyc": "^11.3.0",
     "restify-errors": "^5.0.0",
     "sequelize": "^4.22.6"
   },
@@ -82,5 +83,12 @@
         }
       ]
     }
+  },
+  "nyc": {
+    "reporter": [
+      "text",
+      "lcov",
+      "html"
+    ]
   }
 }
