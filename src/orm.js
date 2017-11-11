@@ -52,7 +52,7 @@ export default class ORM {
           const validationError = validationErrors[0];
 
           throw new errors.UnprocessableEntityError(validationError.message);
-        } else if (validation) {
+        } else {
           throw new errors.UnprocessableEntityError(validation.message);
         }
       });
@@ -170,10 +170,6 @@ export default class ORM {
     return this._queryRecord(modelName, { id })
       .then(record => record.update(payload))
       .catch(err => {
-        /**
-         * HACK: if this is a sequelize validation error, we transform it, otherwise
-         * we can't be totally sure so just throw it up the stack
-         */
         if (err.name === "SequelizeValidationError") {
           const { errors: [validationError] } = err;
           const error = errors.UnprocessableEntityError;
