@@ -44,18 +44,18 @@ export default class ORM {
     const model = this._models.get(modelName);
     const record = model.build(payload);
 
-    return record.validate().then(validation => {
-      if (validation && validation.errors && validation.errors.length) {
-        const validationErrors = validation.errors;
-        const validationError = validationErrors[0];
+    return record.validate()
+      .then(instance => instance.save())
+      .catch(validation => {
+        if (validation && validation.errors && validation.errors.length) {
+          const validationErrors = validation.errors;
+          const validationError = validationErrors[0];
 
-        throw new errors.UnprocessableEntityError(validationError.message);
-      } else if (validation) {
-        throw new errors.UnprocessableEntityError(validation.message);
-      }
-
-      return record.save();
-    });
+          throw new errors.UnprocessableEntityError(validationError.message);
+        } else if (validation) {
+          throw new errors.UnprocessableEntityError(validation.message);
+        }
+      });
   }
 
   /**
